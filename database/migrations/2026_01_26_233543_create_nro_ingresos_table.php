@@ -10,6 +10,7 @@ return new class extends Migration
     {
         Schema::create('nro_ingresos', function (Blueprint $table) {
             $table->id();
+            $table->string('estado',50)->default('Pendiente');
             $table->text('detalles')->nullable();
             $table->date('fecha_retiro')->nullable();
             $table->timestamps();
