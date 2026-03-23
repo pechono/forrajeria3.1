@@ -106,6 +106,15 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         
 
 
+    Route::get('/user/admin', function() { return view('user.adminUser');
+            })->name('user.adminUser');
+    
+    Route::middleware(['auth', 'verified', 'isAdmin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/users', UserManagement::class)->name('users');
+    Route::get('/users/create', CreateUser::class)->name('users.create');
+    Route::get('/users/{user}/edit', EditUser::class)->name('users.edit');
+});
+
 
 
 });
