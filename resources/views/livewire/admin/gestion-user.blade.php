@@ -171,7 +171,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nombre completo <span class="text-red-500">*</span></label>
                     <input type="text" wire:model="nombre" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('nombre') border-red-500 @enderror"
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('nombre') ? 'border-red-500' : 'border-gray-300' }}"
                            placeholder="Ingrese el nombre completo">
                     @error('nombre') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
@@ -179,7 +179,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico <span class="text-red-500">*</span></label>
                     <input type="email" wire:model="email" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('email') border-red-500 @enderror"
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('email') ? 'border-red-500' : 'border-gray-300' }}"
                            placeholder="usuario@ejemplo.com">
                     @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
@@ -187,7 +187,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Contraseña <span class="text-red-500">*</span></label>
                     <input type="password" wire:model="password" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('password') border-red-500 @enderror"
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('password') ? 'border-red-500' : 'border-gray-300' }}"
                            placeholder="Mínimo 8 caracteres">
                     @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
@@ -202,7 +202,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de usuario <span class="text-red-500">*</span></label>
                     <select wire:model="tipoUser" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('tipoUser') border-red-500 @enderror">
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('tipoUser') ? 'border-red-500' : 'border-gray-300' }}">
                         <option value="">Seleccione un tipo</option>
                         @foreach($usertipo as $tipo)
                             <option value="{{ $tipo[0] }}">{{ $tipo[1] }}</option>
@@ -245,21 +245,21 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nombre completo <span class="text-red-500">*</span></label>
                     <input type="text" wire:model="nombre" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('nombre') border-red-500 @enderror">
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('nombre') ? 'border-red-500' : 'border-gray-300' }}">
                     @error('nombre') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Correo electrónico <span class="text-red-500">*</span></label>
                     <input type="email" wire:model="email" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('email') border-red-500 @enderror">
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('email') ? 'border-red-500' : 'border-gray-300' }}">
                     @error('email') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
 
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Nueva contraseña <span class="text-gray-400 text-xs">(opcional)</span></label>
                     <input type="password" wire:model="password" 
-                           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('password') border-red-500 @enderror"
+                           class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('password') ? 'border-red-500' : 'border-gray-300' }}"
                            placeholder="Dejar en blanco para mantener la actual">
                     @error('password') <p class="mt-1 text-xs text-red-500">{{ $message }}</p> @enderror
                 </div>
@@ -273,7 +273,7 @@
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-2">Tipo de usuario <span class="text-red-500">*</span></label>
                     <select wire:model="tipoUser" 
-                            class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition @error('tipoUser') border-red-500 @enderror">
+                            class="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition {{ $errors->has('tipoUser') ? 'border-red-500' : 'border-gray-300' }}">
                         <option value="">Seleccione un tipo</option>
                         @foreach($usertipo as $tipo)
                             <option value="{{ $tipo[0] }}">{{ $tipo[1] }}</option>
@@ -298,9 +298,7 @@
         </div>
     </div>
     @endif
-</div>
-
-<style>
+    <style>
     @keyframes fadeInDown {
         from {
             opacity: 0;
@@ -346,3 +344,5 @@
         outline-offset: 2px;
     }
 </style>
+</div>
+

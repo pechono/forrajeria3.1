@@ -109,7 +109,14 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
    Route::get('/gestion/user', function() { return view('admin.gestionUsuario');
             })->name('admin.gestionUsuario');
 
-
+    Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified'])->group(function () {
+        // ... otras rutas ...
+        
+        // Perfil de usuario
+        Route::get('/profile', function () {
+            return view('admin.index');
+        })->name('profile');
+    });
 
 
 });
