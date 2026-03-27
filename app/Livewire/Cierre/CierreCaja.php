@@ -71,7 +71,7 @@ class CierreCaja extends Component
     // Realiza el cierre de caja
     ModelsCierreCaja::create([
         'efectivo' => $this->efectivo,
-        'tranferencia'=>$this->tranferencia,
+        'transferencia'=>$this->tranferencia,
         'debito' => $this->debito,
         'tarjeta' => $this->tarjeta,
         'cuentaCorriente' => $this->cuentaCorientes,

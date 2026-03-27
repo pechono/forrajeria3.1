@@ -106,7 +106,8 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
         
 
 
-   
+   Route::get('/gestion/user', function() { return view('admin.gestionUsuario');
+            })->name('admin.gestionUsuario');
 
 
 

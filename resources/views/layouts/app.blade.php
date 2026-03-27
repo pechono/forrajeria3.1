@@ -23,8 +23,8 @@
 
             <!-- Page Content -->
             <div id="main" class="flex-1 transition-all duration-500">
-                <div class=" flex pr-2 bg-slate-100 fixed w-full rounded-lg shadow-lg border border-gray-200">
-                    <button class="openbtn p-4 bg-gray-800 text-white" onclick="openNav()">☰ Menu</button>
+                <div class=" flex pr-2 justify-center bg-slate-100 fixed w-full rounded-lg shadow-lg border border-gray-200">
+                    <button class="openbtn px-10 " onclick="openNav()"></button>
                     @include('components.menu-info')
                 </div>
 
