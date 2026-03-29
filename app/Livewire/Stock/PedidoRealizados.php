@@ -13,8 +13,10 @@ class PedidoRealizados extends Component
         $pedidos = Pedido::join('proveedors', 'proveedors.id', '=', 'pedidos.proveedor_id')
                             ->join('articulos', 'articulos.id', '=', 'pedidos.articulo_id')
                             ->join('unidads', 'unidads.id', '=', 'articulos.unidad_id')
-                            ->select('pedidos.pedido','proveedors.nombre','proveedors.telefono','proveedors.localidad','proveedors.direccion','pedidos.created_at as Fecha')
-                            ->groupBy('pedidos.pedido','proveedors.nombre','proveedors.telefono','proveedors.localidad','proveedors.direccion','pedidos.created_at')
+                            ->join('stocks','stocks.articulo_id','articulos.id')
+                            ->select('pedidos.pedido','proveedors.nombre','proveedors.telefono','proveedors.localidad',
+                            'proveedors.direccion','pedidos.created_at as Fecha', 'stocks.codigo_proveedor')
+                            ->groupBy('pedidos.pedido','proveedors.nombre','proveedors.telefono','proveedors.localidad','proveedors.direccion','pedidos.created_at','stocks.codigo_proveedor')
                             ->get();
         return view('livewire.stock.pedido-realizados', compact('pedidos'));
     }
@@ -31,10 +33,12 @@ class PedidoRealizados extends Component
         $this->artPedido = Pedido::join('proveedors', 'proveedors.id', '=', 'pedidos.proveedor_id')
                         ->join('articulos', 'articulos.id', '=', 'pedidos.articulo_id')
                         ->join('unidads', 'unidads.id', '=', 'articulos.unidad_id')
+                        ->join('stocks','stocks.articulo_id','articulos.id')
+
                         ->select(
                             'articulos.articulo','articulos.presentacion','unidads.unidad','pedidos.cantidad',
                             'pedidos.pedido','proveedors.nombre','proveedors.telefono','proveedors.localidad',
-                            'proveedors.direccion','pedidos.created_at as Fecha')
+                            'proveedors.direccion','pedidos.created_at as Fecha', 'stocks.codigo_proveedor','articulos.codigo')
                         ->where('pedidos.pedido','=',$pedidoId)
                         ->get();
 

@@ -98,7 +98,7 @@
                 <tbody>
                     @foreach ( $artPedido as $op )
                     <tr>
-                        <td class=' text-lg border mt-4  '>{{ $op->codigo }} </td>
+                        <td class=' text-lg border mt-4  '>{{ $op->codigo_proveedor }}{{ $op->codigo }}</td>
                         <td class=' text-lg border mt-4  '>{{ $op->articulo}}  {{ $op->presentacion }} {{ $op->unidad }}</td>
                         <td class=' text-lg border mt-4  '>{{ $op->cantidad }} </td>
                     </tr>

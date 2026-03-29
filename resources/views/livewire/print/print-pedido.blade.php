@@ -134,7 +134,8 @@ footer {
                     <table class="invoice-table">
                         <thead>
                             <tr>
-                                <th>Codigo</th>
+                                <th>Cod. Local</th>
+                                <th>Codigo Prov.</th>
                                 <th>Producto</th>
                                 <th>Cantidad</th>
 
@@ -143,8 +144,8 @@ footer {
                         <tbody>
                             @foreach ( $pedidos as $op )
                             <tr>
+                                <td>{{ $op->codigo_proveedor }}{{ $op->codigo}} </td>
                                 <td>{{ $op->codigo}} </td>
-
                                 <td>{{ $op->articulo}}  {{ $op->presentacion }} {{ $op->unidad }}</td>
                                 <td>{{ $op->cantidad }} </td>
 

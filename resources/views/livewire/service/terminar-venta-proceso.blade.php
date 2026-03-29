@@ -435,7 +435,7 @@
         {{-- ----modal confirmar venta---- --}}
         <x-dialog-modal wire:model.live="confirmarOpVenta" maxWidth="2xl">
             <x-slot name="title">
-                {{ __('Eliminar articulo') }}
+                {{ __('Confirmar Operacion') }}
             </x-slot>
 
             <x-slot name="content">
@@ -452,49 +452,7 @@
                 </x-secondary-button>
             </x-slot>
         </x-dialog-modal>
-        {{-- ---- Fin modal confirmar venta---- --}}
-        <!-- aDD User Confirmation Modal -->
-        <x-dialog-modal wire:model.live="confirmingClienteAdd" maxWidth="2xl">
-            <x-slot name="title">
-                {{ __('Cargar Cliente') }}
-            </x-slot>
-            <x-slot name="content">
-                <div class="col-span-6 sm:col-span-4">
-                    <x-label for="apellido" value="{{ __('Apellido') }}" />
-                    <x-input id="apellido" type="text" class="mt-1 block w-full" wire:model="apellido" name='apellido' />
-                    <x-input-error for="apellido" class="mt-2" />
-                </div>
-                <div class="col-span-6 sm:col-span-4 mt-2">
-                    <x-label for="nombre" value="{{ __('Nombre') }}" />
-                    <x-input id="nombre" type="text" class="mt-1 block w-full" wire:model="nombre" name='nombre' />
-                    <x-input-error for="nombre" class="mt-2" />
-
-
-                </div>
-                
-                <div class="col-span-6 sm:col-span-4 mt-2">
-                    <div>
-                        <x-label for="dni" value="DNI " />
-                        <x-input id="dni" type="text" class="mt-1 block w-full" wire:model='dni' placeholder="DNI"/>
-                        <x-input-error for="dni" class="mt-2" />
-                    </div>
-                </div>
-                <div class="col-span-6 sm:col-span-4 mt-2">
-                    <x-label for="telefono" value="{{ __('Telefono') }}" />
-                    <x-input id="telefono" type="text" class="mt-1 block w-full" wire:model="telefono"  />
-                    <x-input-error for="telefono" class="mt-2" />
-                </div>
-            </x-slot>
-            <x-slot name="footer">
-                <x-danger-button wire:click="$toggle('confirmingClienteAdd', false)" wire:loading.attr="disabled">
-                    {{ __('Cancelar') }}
-                </x-danger-button>
-
-                <x-secondary-button class="ms-3" wire:click="saveCliente()" wire:loading.attr="disabled">
-                    {{ __('Guardar') }}
-                </x-secondary-button>
-            </x-slot>
-        </x-dialog-modal>
+        
 
 </div>
 

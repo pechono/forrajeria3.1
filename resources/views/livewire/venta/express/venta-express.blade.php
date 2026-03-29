@@ -1,5 +1,5 @@
 <div class="flex ">
-        <div class=" h-auto  md:w-[70%]  m-5 ">
+    <div class=" h-auto  md:w-[70%]  m-5 ">
 
                 <div class=" bg-white p-4 rounded-lg border">
                     <div class=" bg-white p-4 rounded-lg shadow-lg w-auto border">
@@ -148,26 +148,285 @@
                         </div>
                         {{-- fin seleccionados --}}
                 </div>
-        </div>
+    </div>
 
-        <div class="w-30 bg-white  rounded-lg shadow-md   md:w-[25%]  m-5 h-3/4">
+    <div class="w-30 bg-white  rounded-lg shadow-md   md:w-[25%]  m-5 h-3/4">
                  {{-- operacion --}}
-                <div class=" w-auto rounded-lg shadow-md m-5 p-4">
-                    <div class="col-span-6 sm:col-span-4  rounded-lg border shadow-lg ">
-                        <div class="text-lg mt-4 px-5">Seleccionar Cliente</div>
-                        <select id="cliente_id" class="block w-full mt-4 text-1xl rounded-md" name="cliente_id" wire:model='cliente_id'>
-                            <option value="">Seleccionar...</option>
-                            @foreach ($clientes as $cliente)
-                            <option value="{{ $cliente->id }}">
-                                {{ $cliente->apellido }} , {{ $cliente->nombre }}
-                            </option>
-                            @endforeach
-                        </select>
-                        <button wire:click='confirmarClienteAdd' class="text-white bg-green-500 hover:bg-green-300 rounded-md w-full py-2 px-5 mt-1.5" style="margin-top: 3px;">
-                            Agregar Cliente
-                        </button>
-                        <x-input-error for="cliente_id" class="mt-2" />
+        <div class=" w-auto rounded-lg shadow-md m-5 p-4">
+                   
+
+
+            {{-- <div class="col-span-6 sm:col-span-4 rounded-lg border shadow-lg p-4">
+                <!-- Buscador de clientes -->
+                <div class="mb-3">
+                    <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Cliente</label>
+                    <div class="relative">
+                        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                            <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </div>
+                        <input type="text" 
+                            wire:model.live="d" 
+                            placeholder="Escriba para buscar..." 
+                            class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
                     </div>
+                </div>
+                
+                <!-- Resultados de búsqueda (solo cuando hay texto) -->
+                @if(!empty($d))
+                    <div class="mt-4">
+                        <div class="text-sm text-gray-600 mb-2">
+                            Resultados encontrados: {{ $clientes->count() }}
+                        </div>
+                        
+                        @if($clientes->isNotEmpty())
+                            <div class="max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
+                                @foreach ($clientes as $cliente)
+                                    <div wire:click="seleccionarCliente({{ $cliente->id }})" 
+                                        class="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-0 transition {{ $cliente_id == $cliente->id ? 'bg-blue-100' : '' }}">
+                                        <div class="flex items-center justify-between">
+                                            <div>
+                                                <div class="font-medium text-gray-900">
+                                                    {{ $cliente->apellido }}, {{ $cliente->nombre }}
+                                                </div>
+                                                <div class="text-xs text-gray-500 mt-1">
+                                                    @if($cliente->dni) DNI: {{ $cliente->dni }} @endif
+                                                    @if($cliente->telefono) | Tel: {{ $cliente->telefono }} @endif
+                                                </div>
+                                            </div>
+                                            @if($cliente_id == $cliente->id)
+                                                <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                </svg>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endforeach
+                            </div>
+                        @else
+                            <div class="text-center py-8 bg-gray-50 rounded-lg">
+                                <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                </svg>
+                                <p class="mt-2 text-gray-500">No se encontraron clientes para "{{ $d }}"</p>
+                                <button wire:click="$set('d', '')" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
+                                    Limpiar búsqueda
+                                </button>
+                            </div>
+                        @endif
+                    </div>
+                    
+                    <!-- Cliente seleccionado -->
+                    @if($cliente_id)
+                        @php
+                            $clienteSeleccionado = $clientes->firstWhere('id', $cliente_id);
+                        @endphp
+                        @if($clienteSeleccionado)
+                            <div class="mt-4 p-3 bg-green-50 border border-green-200 rounded-lg">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="text-xs text-green-600">Cliente seleccionado:</span>
+                                        <div class="font-medium text-green-800">
+                                            {{ $clienteSeleccionado->apellido }}, {{ $clienteSeleccionado->nombre }}
+                                        </div>
+                                    </div>
+                                    <button wire:click="limpiarCliente" class="text-red-500 hover:text-red-700">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                    @endif
+                    
+                    <button wire:click="confirmarClienteAdd" 
+                            class="text-white bg-green-500 hover:bg-green-600 rounded-md w-full py-2 px-5 mt-3 transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                            {{ !$cliente_id ? 'disabled' : '' }}>
+                        <svg class="inline-block h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                        </svg>
+                        Confirmar Cliente
+                    </button>
+                @else
+                    <!-- Mensaje inicial cuando no hay búsqueda -->
+                    <div class="text-center py-12">
+                        <svg class="mx-auto h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                        </svg>
+                        <p class="mt-4 text-gray-500">Buscar cliente</p>
+                        <p class="text-sm text-gray-400 mt-1">Escriba nombre, apellido, DNI o teléfono</p>
+                    </div>
+                @endif
+                
+                <x-input-error for="cliente_id" class="mt-2" />
+            </div>
+ --}}
+
+ <!-- Buscador de clientes -->
+            <div class="col-span-6 sm:col-span-4 rounded-lg border shadow-lg p-4">
+                <!-- Buscador de clientes con botón para agregar - SOLO si NO hay cliente confirmado -->
+                @if(!$clienteConfirmado)
+                    <div class="mb-3">
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Buscar Cliente</label>
+                        <div class="flex space-x-2">
+                            <div class="relative flex-1">
+                                <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                    <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                                    </svg>
+                                </div>
+                                <input type="text" 
+                                       wire:model.live="d" 
+                                       placeholder="Escriba para buscar..." 
+                                       class="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <!-- Resultados de búsqueda (solo cuando hay texto) -->
+                    @if(!empty($d))
+                        <div class="mt-4">
+                            <div class="text-sm text-gray-600 mb-2">
+                                Resultados encontrados: {{ $clientes->count() }}
+                            </div>
+                            
+                            @if($clientes->isNotEmpty())
+                                <div class="max-h-60 overflow-y-auto border border-gray-200 rounded-lg">
+                                    @foreach ($clientes as $cliente)
+                                        <div wire:click="seleccionarCliente({{ $cliente->id }})" 
+                                             class="p-3 hover:bg-blue-50 cursor-pointer border-b border-gray-100 last:border-0 transition {{ $cliente_id == $cliente->id ? 'bg-blue-100' : '' }}">
+                                            <div class="flex items-center justify-between">
+                                                <div>
+                                                    <div class="font-medium text-gray-900">
+                                                        {{ $cliente->apellido }}, {{ $cliente->nombre }}
+                                                    </div>
+                                                    <div class="text-xs text-gray-500 mt-1">
+                                                        @if($cliente->dni) DNI: {{ $cliente->dni }} @endif
+                                                        @if($cliente->telefono) | Tel: {{ $cliente->telefono }} @endif
+                                                    </div>
+                                                </div>
+                                                @if($cliente_id == $cliente->id)
+                                                    <svg class="h-5 w-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                                    </svg>
+                                                @endif
+                                            </div>
+                                        </div>
+                                    @endforeach
+                                </div>
+                            @else
+                                <div class="text-center py-8 bg-gray-50 rounded-lg">
+                                    <svg class="mx-auto h-10 w-10 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                                    </svg>
+                                    <p class="mt-2 text-gray-500">No se encontraron clientes para "{{ $d }}"</p>
+                                    <button wire:click="$set('d', '')" class="mt-2 text-sm text-blue-500 hover:text-blue-700">
+                                        Limpiar búsqueda
+                                    </button>
+                                    <br>
+                                    <button wire:click="abrirModalCliente" 
+                                        class="mt-4 inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition">
+                                        <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                        </svg>
+                                        Crear nuevo cliente
+                                    </button
+                                </div>
+                            @endif
+                        </div>
+                    @endif
+                    
+                    <!-- Botón confirmar cliente (solo cuando hay cliente seleccionado y NO confirmado) -->
+                    @if($cliente_id && !$clienteConfirmado)
+                        @php
+                            $clienteSeleccionado = $clientes->firstWhere('id', $cliente_id);
+                        @endphp
+                        @if($clienteSeleccionado)
+                            <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg">
+                                <div class="flex items-center justify-between">
+                                    <div>
+                                        <span class="text-xs text-blue-600">Cliente a confirmar:</span>
+                                        <div class="font-medium text-blue-800">
+                                            {{ $clienteSeleccionado->apellido }}, {{ $clienteSeleccionado->nombre }}
+                                        </div>
+                                    </div>
+                                    <button wire:click="limpiarCliente" class="text-red-500 hover:text-red-700">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        @endif
+                        
+                        <button wire:click="confirmarClienteAdd" 
+                                class="text-white bg-green-500 hover:bg-green-600 rounded-md w-full py-2 px-5 mt-3 transition duration-200">
+                            <svg class="inline-block h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                            </svg>
+                            Confirmar Cliente
+                        </button>
+                    @endif
+                    
+                    <!-- Mensaje inicial cuando no hay búsqueda ni cliente seleccionado -->
+                    @if(empty($d) && !$cliente_id)
+                        <div class="text-center py-12">
+                            <svg class="mx-auto h-16 w-16 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                            <p class="mt-4 text-gray-500">Buscar cliente</p>
+                            <p class="text-sm text-gray-400 mt-1">Escriba nombre, apellido, DNI o teléfono</p>
+                            <button wire:click="abrirModalCliente" 
+                                    class="mt-4 inline-flex items-center px-4 py-2 bg-blue-500 text-white text-sm font-medium rounded-lg hover:bg-blue-600 transition">
+                                <svg class="h-4 w-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path>
+                                </svg>
+                                Crear nuevo cliente
+                            </button>
+                        </div>
+                    @endif
+                    
+                @else
+                    <!-- CLIENTE CONFIRMADO - Tarjeta con información -->
+                    <div class="p-4 bg-green-50 border border-green-200 rounded-lg">
+                        <div class="flex items-center justify-between">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-12 h-12 rounded-full bg-green-500 flex items-center justify-center">
+                                    <svg class="h-6 w-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+                                <div>
+                                    <div class="text-sm text-green-600 font-medium">Cliente confirmado</div>
+                                    <div class="text-lg font-bold text-gray-800">{{ $clienteSeleccionadoApellido }}, {{ $clienteSeleccionadoNombre }}</div>
+                                    @if($clienteSeleccionadoId)
+                                        <div class="text-xs text-gray-500">ID: {{ $clienteSeleccionadoId }}</div>
+                                    @endif
+                                </div>
+                            </div>
+                            <button wire:click="limpiarCliente" 
+                                    class="text-red-500 hover:text-red-700 bg-white rounded-full p-2 shadow-sm"
+                                    title="Cambiar cliente">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                @endif
+                
+                <x-input-error for="cliente_id" class="mt-2" />
+            </div> 
+
+
+
+
+
+
+                    
 
                     <div class="col-span-6 sm:col-span-4 mt-4 rounded-lg border shadow-lg ">
                         <div class="text-lg mt-4 px-5">Tipo de Venta</div>
@@ -191,27 +450,27 @@
                             {{ $total }}
                         </div>
                     </div>
-                </div>
-                @if ($BloquearBoton)
-
-                <div class=' rounded-lg border shadow-lg bg-green-400 m-4 p-2 flex justify-between'>
+        </div>
+                
+        @if ($BloquearBoton)
+        <div class=' rounded-lg border shadow-lg bg-green-400 m-4 p-2 flex justify-between'>
                     <x-danger-button wire:click="cancelarOperacion()" wire:loading.attr="disabled">
                         {{ __('Cancelar') }}
                     </x-danguer-button>
-                        @if ($cliente_id || $tipo_id)
+                        @if ($cliente_id && $tipo_id)
                         <x-secondary-button class="ms-3" wire:click="PreguntaConfirmarVenta()" wire:loading.attr="disabled">
                             {{ __('Confirmar') }}
                         </x-secondary-button>
                         @endif
-                </div>
-                @endif
+        </div>
+         @endif
                 {{-- fin operacion --}}
-            </div>
+    </div>
 
-        {{-- modal --}}
-        @if ($agregarCant)
-        <x-dialog-modal wire:model.live="agregarCant" maxWidth="2xl">
-            <x-slot name="title">
+            {{-- modal --}}
+            @if ($agregarCant)
+            <x-dialog-modal wire:model.live="agregarCant" maxWidth="2xl">
+                <x-slot name="title">
                 {{ __('Selecionar Articulo') }}
             </x-slot>
             <x-slot name="content">

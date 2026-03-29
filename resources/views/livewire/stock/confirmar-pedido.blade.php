@@ -90,7 +90,7 @@
 
      <x-dialog-modal wire:model.live="modal" maxWidth="2xl">
         <x-slot name="title">
-            {{ __('Eliminar articulo') }}
+            {{ __('Pedido a Proveedores') }}
         </x-slot>
 
         <x-slot name="content">
