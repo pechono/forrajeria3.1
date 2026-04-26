@@ -48,7 +48,7 @@
                                                 <td class="rounder border px-4 py-2 {{ $this->Ofeta($articulo->id) ? 'text-green-500 font-bold':'' }}">{{ $articulo->precioF }}</td>
                                                 <td class="rounder border px-4 py-2 {{ $this->Ofeta($articulo->id) ? 'text-green-500 font-bold':'' }}">
                                                     @if ($articulo->suelto == 1)
-                                                        <div class="w-8 h-8 p-2 grid justify-items-center content-center bg-green-400 rounded-full">{{ $articulo->stock }}</div>
+                                                        <div class="w-10 h-8 p-2 grid justify-items-center content-center bg-green-400 rounded-full">{{ $articulo->stock }}</div>
                                                     @else
                                                         {{ $articulo->stock }}
                                                     @endif
@@ -308,15 +308,7 @@
                 @endif
                 
                 <x-input-error for="cliente_id" class="mt-2" />
-            </div> 
-
-
-
-
-
-
-                    
-
+                </div> 
                     <div class="col-span-6 sm:col-span-4 mt-4 rounded-lg border shadow-lg ">
                         <div class="text-lg mt-4 px-5">Tipo de Venta</div>
                         <select id="tipo_id"  class="block  w-full mt-4 text-1xl" wire:model='tipo_id'  wire:click='tipoVenta()' class="rounded-md "/>
@@ -339,102 +331,120 @@
                             {{ $total }}
                         </div>
                     </div>
-        </div>
+                 </div>
                 
-        @if ($BloquearBoton)
-        <div class=' rounded-lg border shadow-lg bg-green-400 m-4 p-2 flex justify-between'>
-                    <x-danger-button wire:click="cancelarOperacion()" wire:loading.attr="disabled">
-                        {{ __('Cancelar') }}
-                    </x-danguer-button>
-                        @if ($cliente_id && $tipo_id)
-                        <x-secondary-button class="ms-3" wire:click="PreguntaConfirmarVenta()" wire:loading.attr="disabled">
-                            {{ __('Confirmar') }}
-                        </x-secondary-button>
-                        @endif
-        </div>
-         @endif
+            @if ($BloquearBoton)
+            <div class=' rounded-lg border shadow-lg bg-green-400 m-4 p-2 flex justify-between'>
+                        <x-danger-button wire:click="cancelarOperacion()" wire:loading.attr="disabled">
+                            {{ __('Cancelar') }}
+                        </x-danguer-button>
+                            @if ($cliente_id && $tipo_id)
+                            <x-secondary-button class="ms-3" wire:click="PreguntaConfirmarVenta()" wire:loading.attr="disabled">
+                                {{ __('Confirmar') }}
+                            </x-secondary-button>
+                            @endif
+            </div>
+            @endif
                 {{-- fin operacion --}}
-    </div>
+        </div>
 
             {{-- modal --}}
-            @if ($agregarCant)
-            <x-dialog-modal wire:model.live="agregarCant" maxWidth="2xl">
-                <x-slot name="title">
-                {{ __('Selecionar Articulo') }}
-            </x-slot>
-            <x-slot name="content">
-                <div class="rounded-t-lg" >
-                    <table class="w-full rounded text-lg">
-                        <thead>
+             @if ($agregarCant)
+                <x-dialog-modal wire:model.live="agregarCant" maxWidth="2xl">
+                    <x-slot name="title">
+                    {{ __('Selecionar Articulo') }}
+                    </x-slot>
+                    <x-slot name="content">
+                        <div class="rounded-t-lg" >
+                            <table class="w-full rounded text-lg">
+                                <thead>
 
-                        </thead>
-                        <tbody>
-                        <tr  >
-                                <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Id</td>
-                                <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Articulo</td>
+                                </thead>
+                                <tbody>
+                                <tr  >
+                                        <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Id</td>
+                                        <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Articulo {{ $articulosMuestra->suelto ? '(Suelto)' : '' }}</td>
 
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2 border">{{ $articulosMuestra->id }} </td>
-                                <td class="px-4 py-2 border">{{ $articulosMuestra->articulo }} - {{ $articulosMuestra->presentacion }}-{{ $articulosMuestra->unidad }}</td>
-                            <tr  >
-                                <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Stock Actual</td>
-                                <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Precio Final</td>
-                            </tr>
-                            <tr>
-                                <td class="px-4 py-2 border">{{ $articulosMuestra->stock }}</td>
-                                <td class="px-4 py-2 border">{{ $articulosMuestra->precioF }}</td>
-                            </tr>
-                            </tr>
-                        </tbody>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border">{{ $articulosMuestra->id }} </td>
+                                        <td class="px-4 py-2 border">{{ $articulosMuestra->articulo }} - {{ $articulosMuestra->presentacion }}-{{ $articulosMuestra->unidad }}</td>
+                                    <tr  >
+                                        <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Stock Actual</td>
+                                        <td class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-lg font-semibold">Precio Final</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="px-4 py-2 border">{{ $articulosMuestra->stock }}</td>
+                                        <td class="px-4 py-2 border">{{ $articulosMuestra->precioF }}</td>
+                                    </tr>
+                                    </tr>
+                                </tbody>
 
-                        <tfoot >
-                            <tr >
-                                <td colspan="1" class=" px-4 py-2 border border-slate-300 bg-sky-400/50  text-2xl font-semibold">
-                                Ingresar Cantidad
-                                </td>
-
-                                <td colspan="1"  class="px-4 py-2 border border-slate-300 bg-sky-400/50  font-semibold text-right">
-                                    <input 
-                                    id="cantidadArt" 
-                                    wire:model="cantidadArt" 
-                                    @if ($agregarCant === 1)
-                                        wire:keydown.enter="save({{ $articulosMuestra->id }}, {{ $articulosMuestra->stock }})"
-                                    @elseif ($agregarCant === 2)
-                                        wire:keydown.enter="updateSave({{ $articulosMuestra->id }}, {{ $articulosMuestra->stock }})"
-                                    @endif
-                                    type="text" 
-                                    placeholder="0" 
-                                    class="text-center text-4xl shadow appearance-none border rounded w-40 h-20 py-2 px-3"
-                                />
-                                <x-input-error for="cantidadArt" class="mt-2" />
-
-                                </td>
-
-                            </tr>
-                        </tfoot>
-                    </table>
-                </div>
-                <div>{{ $majStock }}</div>
-            </x-slot>
-
-            <x-slot name="footer">
-                <x-danger-button wire:click="$toggle('agregarCant', false)" wire:loading.attr="disabled">
-                    {{ __('Cancelar') }}
-                </x-danger-button>
-                @if ($agregarCant==1 )
-                    <x-secondary-button class="ms-3" wire:click="save({{ $articulosMuestra->id }}, {{ $articulosMuestra->stock }})" wire:loading.attr="disabled">
-                    {{ __('Agregar Cantidad') }}
-                    </x-secondary-button>
-                @else<x-secondary-button class="ms-3" wire:click="updateSave({{ $articulosMuestra->id }}, {{ $articulosMuestra->stock }})" wire:loading.attr="disabled">
-                    {{ __('Modificar Cantidad') }}
-                    </x-secondary-button>
-                    
-                @endif
-                
-            </x-slot>
-        </x-dialog-modal>
+                                <tfoot>
+    <tr>
+        <td colspan="1" class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-2xl font-semibold">
+            Ingresar Cantidad
+        </td>
+        @if($articulosMuestra && $articulosMuestra->suelto == 1)
+            <td colspan="1" class="px-4 py-2 border border-slate-300 bg-sky-400/50 text-2xl font-semibold">
+                O Ingresar Importe ($)
+            </td>
         @endif
+    </tr>
+    <tr>
+        <td class="px-4 py-2 border border-slate-300">
+            <input 
+                id="cantidadArt" 
+                wire:model.live="cantidadArt" 
+                type="number" 
+                step="any"
+                placeholder="0" 
+                class="text-center text-4xl shadow appearance-none border rounded w-40 h-20 py-2 px-3"
+            />
+            <x-input-error for="cantidadArt" class="mt-2" />
+        </td>
+        @if($articulosMuestra && $articulosMuestra->suelto == 1)
+            <td class="px-4 py-2 border border-slate-300 text-right">
+                <input 
+                    id="importe" 
+                    wire:model.live="importe" 
+                    type="number" 
+                    step="0.01"
+                    placeholder="0.00" 
+                    class="text-center text-4xl shadow appearance-none border rounded w-40 h-20 py-2 px-3"
+                />
+                <x-input-error for="importe" class="mt-2" />
+                @if($importe > 0)
+                    <div class="text-sm text-gray-500 mt-1">
+                        Equivale a: <strong>{{ number_format($cantidadArt, 3) }} unidades</strong>
+                    </div>
+                @endif
+            </td>
+        @endif
+    </tr>
+</tfoot>
+                            </table>
+                        </div>
+                        <div>{{ $majStock }}</div>
+                    </x-slot>
+
+                    <x-slot name="footer">
+                        <x-danger-button wire:click="$toggle('agregarCant', false)" wire:loading.attr="disabled">
+                            {{ __('Cancelar') }}
+                        </x-danger-button>
+                        @if ($agregarCant==1 )
+                            <x-secondary-button class="ms-3" wire:click="save({{ $articulosMuestra->id }}, {{ $articulosMuestra->stock }})" wire:loading.attr="disabled">
+                            {{ __('Agregar Cantidad') }}
+                            </x-secondary-button>
+                        @else<x-secondary-button class="ms-3" wire:click="updateSave({{ $articulosMuestra->id }}, {{ $articulosMuestra->stock }})" wire:loading.attr="disabled">
+                            {{ __('Modificar Cantidad') }}
+                            </x-secondary-button>
+                            
+                        @endif
+                        
+                    </x-slot>
+                </x-dialog-modal>
+             @endif
 
         <x-dialog-modal wire:model.live="cDescuento" maxWidth="2xl">
             <x-slot name="title">

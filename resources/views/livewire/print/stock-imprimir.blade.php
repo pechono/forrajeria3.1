@@ -169,7 +169,7 @@ footer {
                     </table>
                 </main>
                 <footer>
-                    <p>&copy; 2026 Bicicleteria Balsamo. Todos los derechos reservados.</p>
+                    <p>&copy; 2026 Forrajeria Lolita. Todos los derechos reservados.</p>
                 </footer>
             </div>
     </body>

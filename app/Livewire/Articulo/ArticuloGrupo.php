@@ -33,9 +33,9 @@ class ArticuloGrupo extends Component
     public $grupos = [];
     public $categorias = [];
     public $unidades = [];
-    public $articulo, $categoria_id, $presentacion, $unidad_id,
+    public $articulo, $categoria_id, $presentacion, $unidad_id=1,
             $descuento, $unidadVenta='Unidad', $precioF, $precioI, $caducidad=false,
-            $detalles, $suelto, $porcentaje, $idArtitul, $proveedor_id, $stock, $stockMinimo, $codigo,
+            $detalles=' - ', $suelto=0, $porcentaje=0, $idArtitul, $proveedor_id, $stock, $stockMinimo, $codigo,
             $codigo_proveedor;
     
     public $mensajeError = '-';
@@ -127,7 +127,8 @@ class ArticuloGrupo extends Component
             'unidadVenta' => 'required|string|min:1',
             'precioI' => 'required|numeric|min:1',
             'precioF' => 'required|numeric|min:1',
-            'caducidad' => 'required|string|min:2',
+'caducidad' => 'boolean',            
+            
             'detalles' => 'required|string',
             'suelto' => 'boolean',
             'stock' => 'required|numeric|min:1',
@@ -159,7 +160,7 @@ class ArticuloGrupo extends Component
                 'unidadVenta' => $this->unidadVenta,
                 'precioF' => $this->precioF,
                 'precioI' => $this->precioI,
-                'caducidad' => $this->caducidad,
+            'caducidad' => $this->caducidad ? 'Si' : 'No',
                 'detalles' => $this->detalles,
                 'suelto' => $this->suelto,
                 'activo' => 1

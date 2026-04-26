@@ -23,15 +23,6 @@ class ProveedorSeeder extends Seeder
             'mail'=>'correo@correo.com',
             'activo'=>'1'
         ]);
-        Proveedor::create([
-            'nombre'=>'Biciclateria Balsamo',
-            'telefono'=>'----',
-            'abreviatura'=>'MdO',
-            'rubro'=>'Servicio',
-            'direccion'=>'----',
-            'localidad'=>'----',
-            'mail'=>'correo@correo.com',
-            'activo'=>'1'
-        ]);
+        
     }
 }

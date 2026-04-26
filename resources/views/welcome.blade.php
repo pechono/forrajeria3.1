@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="UTF-8">
-    <title>Bicicleteria Balsamo</title>
+    <title>Forrajeria Lolita</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
   
      <style>
@@ -31,8 +31,8 @@
     <div class="container mx-auto flex justify-between items-center py-4 px-6">
        <div class="flex flex-col transition-colors group">
 
-            <div class="text-4xl font-bold text-indigo-800 group-hover:text-red-600 transition-colors duration-300">Bicicleteria</div>
-            <div class="text-lg font-bold text-red-600 group-hover:text-indigo-800 transition-colors duration-300 text-right">Balsamo</div>
+            <div class="text-4xl font-bold text-indigo-800 group-hover:text-red-600 transition-colors duration-300">Forrajeria</div>
+            <div class="text-lg font-bold text-red-600 group-hover:text-indigo-800 transition-colors duration-300 text-right">Lolita</div>
 
         </div>
         

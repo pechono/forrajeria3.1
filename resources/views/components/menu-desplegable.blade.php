@@ -84,24 +84,8 @@
             </div>
         </div>
 
-        <!-- Servicio -->
-        <div class="menu-group">
-            <button class="menu-toggle w-full flex items-center justify-between px-3 py-3 rounded-xl transition-all duration-200 group" data-menu="servicioSubMenu">
-                <div class="flex items-center space-x-3">
-                    <svg class="w-5 h-5 text-gray-500 group-hover:text-blue-600 dark:text-gray-400 dark:group-hover:text-blue-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M21.75 6.75a4.5 4.5 0 01-4.884 4.484c-1.076-.091-2.264.071-2.95.904l-7.152 8.684a2.548 2.548 0 11-3.586-3.586l8.684-7.152c.833-.686.995-1.874.904-2.95a4.5 4.5 0 016.336-4.486l-3.276 3.276a3.004 3.004 0 002.25 2.25l3.276-3.276c.256.565.398 1.192.398 1.852z"></path>
-                    </svg>
-                    <span class="text-base font-medium text-gray-700 group-hover:text-gray-900 dark:text-gray-300 dark:group-hover:text-white">Servicio</span>
-                </div>
-                <svg class="chevron w-4 h-4 text-gray-400 transition-transform duration-200" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
-                </svg>
-            </button>
-            <div id="servicioSubMenu" class="submenu pl-10 mt-1 space-y-1 hidden">
-                <a href="{{ route('service.ingresarBike') }}" class="sub-link flex items-center space-x-2 px-3 py-2.5 rounded-xl text-base transition-all duration-200">🚲 Ingresar Bicicleta</a>
-                <a href="{{ route('service.egresoBici') }}" class="sub-link flex items-center space-x-2 px-3 py-2.5 rounded-xl text-base transition-all duration-200">🔧 Registro Servicio</a>
-            </div>
-        </div>
+        
+        
 
         <!-- Stock -->
         <div class="menu-group">

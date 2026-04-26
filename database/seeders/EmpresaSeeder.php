@@ -15,9 +15,9 @@ class EmpresaSeeder extends Seeder
     {
         Empresa::create([
 
-            'empresa'=>'Bicicleteria Balsamo',
-            'direccion'=>'Hipolito Yrigoyen',
-            'telefono'=>' 3826 54-1085',
+            'empresa'=>'Forrajeria Lolita',
+            'direccion'=>'Majul Ayan 278',
+            'telefono'=>' 3826 54-0417',
             'mail'=>'-'
         ]);
     }

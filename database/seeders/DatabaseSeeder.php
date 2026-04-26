@@ -23,8 +23,7 @@ class DatabaseSeeder extends Seeder
             ProveedorSeeder::class,
             CategoriaSeeder::class,
             PrimerUserSeeder::class,
-            BicicletaCatalogoSeeder::class,
-            ArticuloGrupoMDO::class
+        
 
 
         ]);

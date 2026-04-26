@@ -274,18 +274,20 @@ class VentaExpress extends Component
     public $precioI;
     public $caducidad;
     public $detalles;
-    public $suelto;
+    public $suelto=0;
     public $porcentaje;
     public $msj;
-    public $descArt = 0;
+    public $descArt;
     public $cantidadArt;
     public $proveedor_id;
     public $stock;
     public $stockMinimo;
 
     public $agregarCant = false;
-    public $articulosMuestra = [];
+    public $articulosMuestra ;
+    public $importe = 0;
     
+    // ✅ MODIFICADO: Se inicializan cantidadArt e importe
     public function addCar($id)
     {
         $this->articulosMuestra = Articulo::select(
@@ -312,9 +314,14 @@ class VentaExpress extends Component
             ->where('articulos.activo', $this->active)
             ->find($id);
 
+        // Resetear valores al abrir el modal
+        $this->cantidadArt = 0;
+        $this->importe = 0;
+        $this->majStock = '--';
         $this->agregarCant = 1;
     }
     
+    // ✅ MODIFICADO: Se carga la cantidad existente y se calcula el importe
     public function modCar($id)
     {
         $this->articulosMuestra = Articulo::select(
@@ -342,35 +349,45 @@ class VentaExpress extends Component
             ->find($id);
 
         $update = Car::where('user_id', auth()->user()->id)->where('articulo_id', '=', $id)->first();
-        $this->cantidadArt = $update->cantidad;
-
+        $this->cantidadArt = $update ? $update->cantidad : 0;
+        // Sincronizar importe según la cantidad
+        if ($this->articulosMuestra && $this->articulosMuestra->precioF > 0) {
+            $this->importe = $this->cantidadArt * $this->articulosMuestra->precioF;
+        } else {
+            $this->importe = 0;
+        }
+        $this->majStock = '--';
         $this->agregarCant = 2;
     }
     
     public $majStock = '--';
     
+    // ✅ CORREGIDO: Se eliminó la llamada a modCar innecesaria
     public function updateSave($idart, $stockArt)
     {
+        $this->validate(['cantidadArt' => 'required|numeric|min:0.001']);
+        
         if ($stockArt >= $this->cantidadArt) {
-            $this->validate(['cantidadArt' => 'required|numeric']);
             Car::where('user_id', auth()->user()->id)
                 ->where('articulo_id', '=', $idart)
                 ->update(['cantidad' => $this->cantidadArt]);
             $this->agregarCant = false;
             $this->Total();
             $this->q = '';
+            // Resetear valores
+            $this->cantidadArt = 0;
+            $this->importe = 0;
         } else {
-            $this->modCar($idart);
-            $this->majStock = "Stock Insuficiente para realizar esta operacion";
+            $this->majStock = "Stock Insuficiente para realizar esta operación. Disponible: $stockArt";
         }
     }
     
+    // ✅ CORREGIDO: Se eliminaron las llamadas duplicadas a addCar
     public function save($idart, $stockArt)
     {
-        $this->addCar($idart);
+        $this->validate(['cantidadArt' => 'required|numeric|min:0.001']);
+        
         if ($stockArt >= $this->cantidadArt) {
-            $this->validate(['cantidadArt' => 'required|numeric']);
-            $this->addCar($idart);
             Car::create([
                 'articulo_id' => $idart,
                 'cantidad' => $this->cantidadArt,
@@ -380,11 +397,41 @@ class VentaExpress extends Component
             $this->agregarCant = false;
             $this->Total();
             $this->q = '';
+            // Resetear valores
+            $this->cantidadArt = 0;
+            $this->importe = 0;
         } else {
-            $this->addCar($idart);
-            $this->majStock = "Stock Insuficiente para realizar esta operacion";
+            $this->majStock = "Stock Insuficiente para realizar esta operación. Disponible: $stockArt";
         }
     }
+    
+    // -------------------------------
+    // ✅ CORREGIDO: Se agregó validación de existencia de artículo
+    public function updatedCantidadArt()
+    {
+        if ($this->articulosMuestra && $this->articulosMuestra->precioF > 0) {
+            $this->importe = $this->cantidadArt * $this->articulosMuestra->precioF;
+        }
+    }
+
+    // ✅ CORREGIDO: Se agregó validación y redondeo controlado
+    public function updatedImporte()
+    {
+        if ($this->articulosMuestra && $this->articulosMuestra->suelto == 1 && $this->articulosMuestra->precioF > 0) {
+            $precio = $this->articulosMuestra->precioF;
+            if ($precio > 0 && $this->importe > 0) {
+                // Calcula cantidad con 3 decimales (para fracciones de kg, litros, etc.)
+                $this->cantidadArt = round($this->importe / $precio, 3);
+            } elseif ($this->importe <= 0) {
+                $this->cantidadArt = 0;
+            }
+        } elseif ($this->articulosMuestra && $this->articulosMuestra->suelto != 1) {
+            // Si no es suelto, el importe no se usa; se podría limpiar o ignorar
+            // Para evitar confusiones, si no es suelto, forzamos importe a 0
+            $this->importe = 0;
+        }
+    }
+    // ------------------------------
     
     public function deletCar($id)
     {
@@ -593,6 +640,14 @@ class VentaExpress extends Component
         $this->dni = '';
         $this->telefono = '';
         $this->confirmingClienteAdd = false;
+    }
+    
+    public function abrirModal($idArticulo, $modo = 1) // 1=agregar, 2=modificar
+    {
+        $this->articulosMuestra = Articulo::find($idArticulo);
+        $this->cantidadArt = 0;
+        $this->importe = 0;
+        $this->agregarCant = $modo;
     }
     
     public function abrirModalCliente()

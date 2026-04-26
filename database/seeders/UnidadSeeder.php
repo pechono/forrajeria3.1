@@ -18,12 +18,15 @@ class UnidadSeeder extends Seeder
             'unidad'=>'unidad',
         ]);
         Unidad::create([
-            'unidad'=>'Metro',
+            'unidad'=>'Kilo',
+        ]);
+        Unidad::create([
+            'unidad'=>'Gramo',
         ]);
         Unidad::create([
             'unidad'=>'Litro',
-        ]);
-        Unidad::create([
+
+        ]);Unidad::create([
             'unidad'=>'MLitro',
 
         ]);

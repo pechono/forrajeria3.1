@@ -105,18 +105,7 @@ Route::middleware(['auth:sanctum', config('jetstream.auth_session'), 'verified']
     Route::get('/imagenes/cargar', fn() => view('imagenes.imagenes'))->name('imagenes.imagenes');
 
 
-    Route::get('/servicio/ingresar', fn() => view('service.ingresarBike'))->name('service.ingresarBike');
-    Route::get('/servicio/ingreso-imp/{nro_ingreso}', function($nro_ingreso) { return view('service.ingresoImp', compact('nro_ingreso'));
-        })->name('service.ingresoImp');
-    Route::get('/servicios/imprimir/ingreso{nro_ingreso}', [ReporIngreso::class, 'generateReport'])->name('imprimirIngreso');
-    Route::get('/servicio/egreso', fn() => view('service.egresoBici'))->name('service.egresoBici');
-    Route::get('/servicio/egreso/terminar/{nro_ingreso}', function($nro_ingreso) { return view('service.egresoTerminar', compact('nro_ingreso'));
-            })->name('service.egresoTerminar');
-    Route::get('/servicio/terminar/venta/{nro_ingreso}', function($nro_ingreso) { return view('service.terminarVentaProceso', compact('nro_ingreso'));
-            })->name('service.terminarVentaProceso');
-        
     
-    Route::get('/servicio/calendario', fn() => view('service.calendarioServicios'))->name('service.calendarioServicios');
 
 
 
