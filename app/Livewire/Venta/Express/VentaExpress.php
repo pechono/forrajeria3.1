@@ -288,6 +288,14 @@ class VentaExpress extends Component
     public $importe = 0;
     
     // ✅ MODIFICADO: Se inicializan cantidadArt e importe
+    // Datos del artículo que se muestra en el modal (persistentes)
+public $mId = 0;
+public $mArticuloNombre = '';
+public $mPresentacion = '';
+public $mUnidad = '';
+public $mStockActual = 0;
+public $mPrecioF = 0;
+public $mSuelto = 0;
     public function addCar($id)
     {
         $this->articulosMuestra = Articulo::select(
@@ -363,47 +371,65 @@ class VentaExpress extends Component
     public $majStock = '--';
     
     // ✅ CORREGIDO: Se eliminó la llamada a modCar innecesaria
-    public function updateSave($idart, $stockArt)
-    {
-        $this->validate(['cantidadArt' => 'required|numeric|min:0.001']);
-        
-        if ($stockArt >= $this->cantidadArt) {
-            Car::where('user_id', auth()->user()->id)
-                ->where('articulo_id', '=', $idart)
-                ->update(['cantidad' => $this->cantidadArt]);
-            $this->agregarCant = false;
-            $this->Total();
-            $this->q = '';
-            // Resetear valores
-            $this->cantidadArt = 0;
-            $this->importe = 0;
-        } else {
-            $this->majStock = "Stock Insuficiente para realizar esta operación. Disponible: $stockArt";
-        }
+    public function save()
+{
+    // Usar los datos ya cargados en $this->articulosMuestra
+    if (!$this->articulosMuestra) {
+        session()->flash('error', 'Artículo no encontrado');
+        return;
     }
     
-    // ✅ CORREGIDO: Se eliminaron las llamadas duplicadas a addCar
-    public function save($idart, $stockArt)
-    {
-        $this->validate(['cantidadArt' => 'required|numeric|min:0.001']);
-        
-        if ($stockArt >= $this->cantidadArt) {
-            Car::create([
-                'articulo_id' => $idart,
-                'cantidad' => $this->cantidadArt,
-                'user_id' => auth()->user()->id,
-                'operacionCar' => 100
-            ]);
-            $this->agregarCant = false;
-            $this->Total();
-            $this->q = '';
-            // Resetear valores
-            $this->cantidadArt = 0;
-            $this->importe = 0;
-        } else {
-            $this->majStock = "Stock Insuficiente para realizar esta operación. Disponible: $stockArt";
-        }
+    $idart = $this->articulosMuestra->id;
+    $stockArt = $this->articulosMuestra->stock;
+    
+    $this->validate(['cantidadArt' => 'required|numeric|min:0.001']);
+    
+    if ($stockArt >= $this->cantidadArt) {
+        Car::create([
+            'articulo_id' => $idart,
+            'cantidad' => $this->cantidadArt,
+            'user_id' => auth()->user()->id,
+            'operacionCar' => 100
+        ]);
+        $this->agregarCant = false;
+        $this->Total();
+        $this->q = '';
+        $this->cantidadArt = 0;
+        $this->importe = 0;
+        $this->articulosMuestra=$this->articulosMuestra;
+
+    } else {
+        $this->majStock = "Stock Insuficiente para realizar esta operación. Disponible: $stockArt";
     }
+}
+
+public function updateSave()
+{
+    if (!$this->articulosMuestra) {
+        session()->flash('error', 'Artículo no encontrado');
+        return;
+    }
+    
+    $idart = $this->articulosMuestra->id;
+    $stockArt = $this->articulosMuestra->stock;
+    
+    $this->validate(['cantidadArt' => 'required|numeric|min:0.001']);
+    
+    if ($stockArt >= $this->cantidadArt) {
+        Car::where('user_id', auth()->user()->id)
+            ->where('articulo_id', '=', $idart)
+            ->update(['cantidad' => $this->cantidadArt]);
+        $this->agregarCant = false;
+        $this->Total();
+        $this->q = '';
+        $this->cantidadArt = 0;
+        $this->importe = 0;
+        $this->articulosMuestra=$this->articulosMuestra;
+    } else {
+        $this->majStock = "Stock Insuficiente para modificar. Disponible: $stockArt";
+    }
+
+}
     
     // -------------------------------
     // ✅ CORREGIDO: Se agregó validación de existencia de artículo

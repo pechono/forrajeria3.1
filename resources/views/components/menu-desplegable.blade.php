@@ -48,7 +48,7 @@
                 </svg>
             </div>
             <div>
-                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Bicicletería</h2>
+                <h2 class="text-lg font-semibold text-gray-800 dark:text-white">Forrajeria</h2>
                 <p class="text-xs text-gray-500 dark:text-gray-400">Sistema de Gestión</p>
             </div>
         </div>

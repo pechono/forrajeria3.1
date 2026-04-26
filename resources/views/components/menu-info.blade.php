@@ -3,8 +3,8 @@
     <!-- Logo + Nombre -->
     <div class="flex items-center gap-3">
         <img
-            src="{{ asset('images/bicicletas_logo.png') }}"
-            alt="Bicicletería Bálsamo"
+            src="{{ asset('images/abuela.png') }}"
+            alt="ForrajeriaLolita Logo"
             class="h-10 w-auto"
         >
 <span
@@ -13,7 +13,7 @@
          hover:text-blue-500
          transition-colors duration-300"
 >
-  Bicicletería Bálsamo
+  ForrajeriaLolita
 </span>
         {{-- <span class="text-2xl font-semibold tracking-wide">
             Bicicletería Bálsamo
